@@ -39,7 +39,7 @@ For the simple example above, we used the following properties to build the attr
 
 | Property | Description |
 | --- | --- |
-| **`key`** | Uniquely identifies the attribute. This will come in handly later. |
+| **`key`** | Uniquely identifies the attribute. This will come in handy later. |
 | **`highlight`** | Config for the highlighted region displayed on each date. |
 | **`dates`** | Dates used to display the attribute. |
 
@@ -530,6 +530,31 @@ If you are not familiar with the convention of using scoped slots in Vue.js, you
 </v-calendar>
 ```
 
+```js
+// ...Continued from previous example
+export default {
+  ...
+  computed: {
+    attributes() {
+      return [
+        // Attributes for todos
+        ...this.todos.map(todo => ({
+          dates: todo.dates,
+          dot: {
+            color: todo.color,
+            class: todo.isComplete ? 'opacity-75' : '',
+          },
+          // We need to at least pass a truthy value for the popover to appear
+          // Pass an object to customize popover settings like visibility, placement, etc.
+          popover: true,
+          customData: todo,
+        })),
+      ];
+    },
+  },
+}
+```
+
 Notice that displaying static content here probably isn't going to help you much.
 
 Now that you are providing your own popover, you need to display the attributes on your own. Fortunately, the following `slot-scope` props should provide you with everything you need to help you display content for your custom data.
@@ -610,7 +635,7 @@ Finally, if you wish to display indicators with your custom content, you can use
       v-for="attr in attributes"
       :key="attr.key"
       :attribute="attr">
-      {{ customData.description }}
+      {{ attr.customData.description }}
     </popover-row>
   </div>
 </v-calendar>
@@ -630,16 +655,4 @@ export default {
 
 ### Additional Options
 
-These are the additional configuration options you may use for further popover customization:
-
-| Property | Type | Description |
-| --- | --- | --- |
-| `label` | String | Content to display in the popover. |
-| `labelClass` | String | Class to apply to the label. |
-| `labelStyle` | Object | Inline style to apply to the label. |
-| `hideIndicator` | Boolean | Hides the indicator that appears to the left of the label. |
-| `isInteractive` | Boolean | Allows user to interactive with the popover contents. For example, this keeps the popover open when user hovers over the popover when `visibility === "hover"`, instead of hiding it by default. |
-| `visibility` | String | Visibility mode for the popover (`"hover-focus"`, `"hover"`, `"focus"`, `"click"`, `"visible"`, `"hidden"`). |
-| `placement` | String | Default or suggested placement of the popover. This may change as the browser window dimensions change. [Valid placements](https://popper.js.org/popper-documentation.html#Popper.placements) include `auto`, `top`, `right`, `bottom`, `left`. Each placement can have suffixed variations `-start` or `-end`. |
-| `positionFixed` | Boolean | Display the popover in `fixed` mode. Reference [`popper.js`](https://popper.js.org/popper-documentation.html#Popper.Defaults.positionFixed) for more details. |
-| `modifiers` | Boolean | Modifiers used to modify the behavior of [`popper.js`](https://popper.js.org/popper-documentation.html#modifiers). |
+Reference [API](api/attribute.html#popover) for a complete list of popover options.

@@ -56,7 +56,7 @@ Using the default slot, you can replace the input element with your own trigger 
 
 ### Inline
 
-Alternatively, the calendar can be displayed inline (not as a popover) by setting the`is-inline` prop.
+Alternatively, the calendar can be displayed inline (not as a popover) by setting the `is-inline` prop.
 
 <guide-datepicker-intro-inline />
 
@@ -164,11 +164,11 @@ export default {
 
 ## Format & Parse Dates
 
-Please reference the [formatting & parsing section](/guide/#formatting-parsing) for steps to customizing the input element's formatting and parsing behavior.
+Please reference the [formatting & parsing section](./i18n.md#formatting-parsing-dates) for steps to customizing the input element's formatting and parsing behavior.
 
 ## Disable Dates
 
-Refer to the [disabling dates section](./README.md#disabling-dates).
+Refer to the [disabling dates section](./dates.md#disabling-dates).
 
 ## Require Selected Date
 
@@ -416,7 +416,7 @@ We'll first try to display the dragged range, then fall back to the selected ran
   is-inline
   @drag="dragValue = $event"
 >
-  <div slot="day-popover" slot-scope="{ format}">
+  <div slot="day-popover" slot-scope="{ format }">
     {{ format(dragValue ? dragValue.start : range.start, 'MMM D') }}
     -
     {{ format(dragValue ? dragValue.end : range.end, 'MMM D') }}

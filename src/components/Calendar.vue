@@ -1,18 +1,18 @@
 <script>
+import { addDays, addMonths, addYears } from 'date-fns';
 import Popover from './Popover';
 import PopoverRow from './PopoverRow';
 import Grid from './Grid';
 import CalendarPane from './CalendarPane';
 import CustomTransition from './CustomTransition';
 import SvgIcon from './SvgIcon';
-import AttributeStore from '@/utils/attributeStore';
+import AttributeStore from '../utils/attributeStore';
 import {
   propOrDefaultMixin,
   rootMixin,
   safeScopedSlotMixin,
-} from '@/utils/mixins';
-import { addHorizontalSwipeHandler } from '@/utils/touch';
-import { addDays, addMonths, addYears } from 'date-fns';
+} from '../utils/mixins';
+import { addHorizontalSwipeHandler } from '../utils/touch';
 import {
   pageForDate,
   pageForThisMonth,
@@ -25,7 +25,7 @@ import {
   createGuid,
   arrayHasItems,
   onSpaceOrEnter,
-} from '@/utils/helpers';
+} from '../utils/helpers';
 import {
   isNumber,
   isDate,
@@ -34,8 +34,8 @@ import {
   omit,
   head,
   last,
-} from '@/utils/_';
-import '@/styles/tailwind-lib.css';
+} from '../utils/_';
+import '../styles/tailwind-lib.css';
 
 export default {
   name: 'Calendar',
@@ -178,6 +178,7 @@ export default {
           ],
           on: {
             keydown: this.handleKeydown,
+            mouseup: e => e.preventDefault(),
           },
           ref: 'container',
         },
@@ -747,7 +748,7 @@ export default {
 };
 </script>
 
-<style lang="postcss">
+<style>
 .vc-container {
   --slide-translate: 22px;
   --slide-duration: 0.15s;
@@ -788,6 +789,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   position: relative;
   width: max-content;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .vc-arrows-container {
@@ -798,7 +800,6 @@ export default {
   justify-content: space-between;
   padding: var(--arrows-padding);
   pointer-events: none;
-  z-index: 10;
   &.title-left {
     justify-content: flex-end;
   }

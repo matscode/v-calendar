@@ -1,6 +1,6 @@
-import { format, parse } from '@/utils/fecha';
-import defaultLocales from '@/utils/defaults/locales';
-import { addPages, pageForDate } from '@/utils/helpers';
+import { format, parse } from './fecha';
+import defaultLocales from './defaults/locales';
+import { addPages, pageForDate } from './helpers';
 import {
   isDate,
   isNumber,
@@ -9,7 +9,7 @@ import {
   has,
   defaultsDeep,
   clamp,
-} from '@/utils/_';
+} from './_';
 
 const daysInWeek = 7;
 const daysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -24,10 +24,11 @@ export function resolveConfig(config, locales) {
   } else if (has(config, 'id')) {
     id = config.id;
   }
-  id = id || detLocale;
-  id = [id, id.substring(0, 2)].find(i => has(locales, i)) || detLocale;
-  // Add fallback and
-  // spread the default locale to prevent repetitive update loops
+  id = (id || detLocale).toLowerCase();
+  const localeKeys = Object.keys(locales);
+  const validKey = k => localeKeys.find(lk => lk.toLowerCase() === k);
+  id = validKey(id) || validKey(id.substring(0, 2)) || detLocale;
+  // Add fallback and spread default locale to prevent repetitive update loops
   const defLocale = { ...locales['en-IE'], ...locales[id], id };
   // Assign or merge defaults with provided config
   config = isObject(config) ? defaultsDeep(config, defLocale) : defLocale;
@@ -217,7 +218,7 @@ export default class Locale {
     };
   }
 
-  // Buils day components for a given page
+  // Builds day components for a given page
   getCalendarDays({ monthComps, prevMonthComps, nextMonthComps }) {
     const days = [];
     const { firstDayOfWeek, firstWeekday } = monthComps;

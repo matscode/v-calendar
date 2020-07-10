@@ -1,11 +1,6 @@
-import {
-  pageForDate,
-  getMaxPage,
-  addPages,
-  datesAreEqual,
-} from '@/utils/helpers';
-import DateInfo from '@/utils/dateInfo';
-import { isDate, isObject } from '@/utils/_';
+import { pageForDate, getMaxPage, addPages, datesAreEqual } from '../helpers';
+import DateInfo from '../dateInfo';
+import { isDate, isObject } from '../_';
 
 export default class RangePicker {
   constructor({ locale, format, parse }) {
@@ -43,7 +38,8 @@ export default class RangePicker {
   parse(text) {
     let start;
     let end;
-    const dateTexts = text.split('-').map(s => s.trim());
+    const separator = [' - ', '-'].find(s => text.includes(s));
+    const dateTexts = text.split(separator).map(s => s.trim());
     if (dateTexts.length >= 2) {
       start = this._parse(dateTexts[0]);
       end = this._parse(dateTexts[1]);
